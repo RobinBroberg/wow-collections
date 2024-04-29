@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function MountsComponent() {
+function AllMounts() {
     const [mounts, setMounts] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/')
+        axios.get('http://localhost:5000/mounts')
         .then(response => {
             if (response.status === 200 && response.data) {
                 setMounts(response.data.mounts);
@@ -29,13 +29,13 @@ function MountsComponent() {
             <h1>Mounts</h1>
             <ul>
                 {mounts.map(mount => (
-                    <li key={mount.id}>{mount.name}</li>  // Displaying each mount's name
+                    <li key={mount.id}>{mount.name + " " + mount.id}</li>  // Displaying each mount's name
                 ))}
             </ul>
         </div>
     );
 }
 
-export default MountsComponent;
+export default AllMounts;
 
 
