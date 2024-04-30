@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import IGNORE_MOUNT_ID from "../data/mountData/mountData";
 
 function AllMounts() {
     const [mounts, setMounts] = useState([]);
@@ -9,7 +10,8 @@ function AllMounts() {
         axios.get('http://localhost:5000/mounts')
         .then(response => {
             if (response.status === 200 && response.data) {
-                setMounts(response.data.mounts);
+                const filteredMounts = response.data.mounts.filter(mount => !IGNORE_MOUNT_ID.includes(mount.id));
+                setMounts(filteredMounts);
             } else {
                 throw new Error('Failed to fetch mounts');
             }
@@ -29,7 +31,7 @@ function AllMounts() {
             <h1>Mounts</h1>
             <ul>
                 {mounts.map(mount => (
-                    <li key={mount.id}>{mount.name + " " + mount.id}</li>  // Displaying each mount's name
+                    <li key={mount.id}>{mount.name + " " + mount.id}</li>
                 ))}
             </ul>
         </div>
