@@ -5,6 +5,7 @@ const {getBlizzardAccessToken} = require("./blizzardService");
 
 const router = express.Router();
 
+
 async function fetchMountsData() {
     try {
         const accessToken = await getBlizzardAccessToken();
@@ -51,9 +52,8 @@ router.get('/', async (req, res) => {
 router.get('/collected', async (req, res) => {
     try {
         const accessToken = await getBlizzardAccessToken();
-        const realmSlug = "tarren-mill";
-        const characterName = "loriene";
-        const response = await axios.get(`https://eu.api.blizzard.com/profile/wow/character/${realmSlug}/${characterName}/collections/mounts?namespace=profile-eu&locale=en_GB&access_token=${accessToken}`);
+        const {characterName, realm} = req.query;
+        const response = await axios.get(`https://eu.api.blizzard.com/profile/wow/character/${realm}/${characterName}/collections/mounts?namespace=profile-eu&locale=en_GB&access_token=${accessToken}`);
         res.json(response.data);
     } catch (error) {
         console.error('Failed to retrieve collected mounts:', error);

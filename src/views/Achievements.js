@@ -3,23 +3,24 @@ import axios from 'axios';
 import {Grid, List, ListItem, Paper} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/utils";
 
-function CollectedMounts() {
-    const [mounts, setMounts] = useState([]);
+function Achievements() {
+    const [achievements, setAchievements] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/mounts/collected')
+        axios.get('http://localhost:5000/achievements')
         .then(response => {
-            if (response.status === 200 && response.data && response.data.mounts) {
-                setMounts(response.data.mounts);
+            console.log("API Response", response.data)
+            if (response.status === 200 && response.data && response.data.achievements) {
+                setAchievements(response.data.achievements);
                 refreshWowheadTooltips();
             } else {
-                throw new Error('Failed to fetch mounts');
+                throw new Error('Failed to fetch achievements');
             }
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
-            setError('Failed to load mounts: ' + error.message);
+            setError('Failed to load achievements: ' + error.message);
         });
     }, []);
 
@@ -30,12 +31,12 @@ function CollectedMounts() {
     return (
         <Grid container style={{display: "flex", justifyContent: "center"}}>
             <Grid item xs={8}>
-                <h1>Mounts</h1>
-                <Paper elevation={3} style={{padding: '20px'}}>
+                <h1>Achievements!</h1>
+                <Paper elevation={2} style={{padding: '20px'}}>
                     <List>
-                        {mounts.map((mount) => (
-                            <ListItem key={mount.mount.id}>
-                                <a href={`https://www.wowhead.com/mount/${mount.mount.id}`} target="_blank"
+                        {achievements.map(achievement => (
+                            <ListItem key={achievement.id}>
+                                <a href={`https://www.wowhead.com/achievement=${achievement.id}`} target="_blank"
                                    rel="noopener noreferrer">
                                 </a>
                             </ListItem>
@@ -47,5 +48,4 @@ function CollectedMounts() {
     );
 }
 
-export default CollectedMounts;
-
+export default Achievements;

@@ -1,27 +1,30 @@
 import './App.css';
-import AllMounts from "./components/AllMounts";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import Achievements from "./components/Achievements";
-import CollectedMounts from "./components/CollectedMounts";
-import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
-import React from "react";
-import Navigation from "./components/Navigation";
+import Achievements from "./views/Achievements";
+import Mounts from "./views/Mounts";
+import {CssBaseline, ThemeProvider} from "@mui/material";
+import {useState} from "react";
+import NavBar from "./components/NavBar";
+import {darkTheme, lightTheme} from "./utils/Theme";
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-    },
-});
+
+
+
+
 
 function App() {
+
+    const [isDarkMode, setIsDarkMode] = useState(false);
+    const theme = isDarkMode ? darkTheme : lightTheme;
+
+
     return (
-        <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
             <Router>
-                <Navigation/>
+                <NavBar onIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode}/>
                 <Routes>
-                    <Route path="/mounts" element={<AllMounts/>}/>
-                    <Route path="/collectedMounts" element={<CollectedMounts/>}/>
+                    <Route path="/mounts" element={<Mounts/>}/>
                     <Route path="/achievements" element={<Achievements/>}/>
                 </Routes>
             </Router>
