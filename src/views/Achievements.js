@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Grid, List, ListItem, Paper} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/utils";
+import {CustomLink} from "../utils/Theme";
 
 function Achievements() {
     const [achievements, setAchievements] = useState([]);
@@ -36,9 +37,9 @@ function Achievements() {
                     <List>
                         {achievements.map(achievement => (
                             <ListItem key={achievement.id}>
-                                <a href={`https://www.wowhead.com/achievement=${achievement.id}`} target="_blank"
+                                <CustomLink href={`https://www.wowhead.com/achievement=${achievement.id}`} target="_blank"
                                    rel="noopener noreferrer">
-                                </a>
+                                </CustomLink>
                             </ListItem>
                         ))}
                     </List>

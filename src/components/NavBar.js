@@ -3,11 +3,12 @@ import {AppBar, Toolbar, Grid, Typography, Button, TextField, FormControlLabel, 
 import NavButton from "./Buttons/NavButton";
 import {useState} from "react";
 import { useNavigate } from 'react-router-dom';
+import myImage from "../data/icons/World-of-Warcraft-Logo-2004.png"
 
 function NavBar({onIsDarkMode, isDarkMode}) {
 
-    const [characterName, setCharacterName] = useState();
-    const [realm, setRealm] = useState();
+    const [characterName, setCharacterName] = useState("");
+    const [realm, setRealm] = useState("");
     const navigate = useNavigate();
 
     const handleSaveCharacter = () => {
@@ -27,7 +28,7 @@ function NavBar({onIsDarkMode, isDarkMode}) {
     }
 
     return (
-        <AppBar position="static">
+        <AppBar position="sticky">
             <Toolbar>
                 <FormControlLabel
                     control={
@@ -41,8 +42,12 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                 />
                 <Grid container alignItems="center" justifyContent="center" spacing={4}>
                     <Grid item>
-                        <Typography variant="h6">WoW Collections</Typography>
+                        <img src={myImage} alt="Description"  style={{ width: "120px", height: "auto", margin: "0px" }} />
+
                     </Grid>
+                    {/*<Grid item>*/}
+                    {/*    <Typography variant="h6">Collections</Typography>*/}
+                    {/*</Grid>*/}
                     <Grid item>
                         <Grid container spacing={2}>
                             <Grid item>
@@ -57,14 +62,15 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                                     label="Username"
                                     value={characterName}
                                     size={"small"}
-                                    onChange={(e) => setCharacterName(e.target.value)}
+                                    onChange={(event) => setCharacterName(event.target.value)}
+                                    style={{marginRight: "10px"}}
                                 />
                                 <TextField
                                     id="realm"
                                     label="Realm"
                                     value={realm}
                                     size={"small"}
-                                    onChange={(e) => setRealm(e.target.value)}
+                                    onChange={(event) => setRealm(event.target.value)}
                                 />
                             </Grid>
                             <Grid item>
@@ -73,13 +79,10 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                             <Grid item>
                             <Typography variant="h6">{ window.localStorage.getItem("character")}</Typography>
                         </Grid>
-                            <Grid item>
-                                <Typography variant="h6">{ window.localStorage.getItem("realm")}</Typography>
-                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-                <Button variant="contained" color={"secondary"} onClick={handleLogout}>Logout</Button>
+                <Button variant="contained" color={"secondary"} disabled={window.localStorage.getItem("character") === null} onClick={handleLogout}>Logout</Button>
             </Toolbar>
         </AppBar>
     );

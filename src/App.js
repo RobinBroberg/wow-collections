@@ -17,7 +17,6 @@ function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const theme = isDarkMode ? darkTheme : lightTheme;
 
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>

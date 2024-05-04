@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Grid, List, ListItem, Paper} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/utils";
 import IGNORE_MOUNT_ID from "../data/mountData/mountData";
+import {CustomLink} from "../utils/Theme";
 
 
 function Mounts() {
@@ -61,10 +62,10 @@ function Mounts() {
                     <List>
                         {mounts.map((mount) => (
                             <ListItem key={mount.id}>
-                                <a href={`https://www.wowhead.com/mount/${mount.id}`} target="_blank"
-                                   rel="noopener noreferrer" style={{ marginRight: '10px' }}>
+                                <CustomLink href={`https://www.wowhead.com/mount/${mount.id}`} target="_blank"
+                                   rel="noopener noreferrer" >
                                     {mount.name}
-                                </a>
+                                </CustomLink>
                                 {mount.collected ? '✅' : ''}
                             </ListItem>
                         ))}
