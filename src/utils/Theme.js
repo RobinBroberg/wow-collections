@@ -32,6 +32,7 @@ export const lightTheme = createTheme({
         },
         secondary: {
             main: '#2f4f4f',
+            //681f4a maybe?
         },
     },
     components: {

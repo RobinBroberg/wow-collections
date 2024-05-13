@@ -1,13 +1,26 @@
-import React from 'react';
-import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
-const NavButton = ({ to, label }) => {
+const NavButton = ({ to, label, disabled }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        if (!disabled) {
+            navigate(to);
+        }
+    };
+
     return (
-        <Button component={Link} to={to} variant="contained" color={"secondary"}>
+        <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleClick}
+            disabled={disabled}
+        >
             {label}
         </Button>
     );
 };
 
 export default NavButton;
+

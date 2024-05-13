@@ -1,90 +1,100 @@
-import {AppBar, Toolbar, Grid, Typography, Button, TextField, FormControlLabel, Switch} from '@mui/material';
+import {AppBar, Toolbar, Grid, Button, FormControlLabel, Switch, Typography} from '@mui/material';
 
 import NavButton from "./Buttons/NavButton";
 import {useState} from "react";
-import { useNavigate } from 'react-router-dom';
-import myImage from "../data/icons/World-of-Warcraft-Logo-2004.png"
+import {useNavigate} from 'react-router-dom';
+import wowLogo from "../data/icons/World-of-Warcraft-Logo-2004.png"
+import CharacterAvatar from "./CharacterAvatar";
+import LoginDialog from "./LoginDialog";
 
 function NavBar({onIsDarkMode, isDarkMode}) {
 
-    const [characterName, setCharacterName] = useState("");
-    const [realm, setRealm] = useState("");
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [characterName, setCharacterName] = useState(localStorage.getItem('character'));
+    const [realm, setRealm] = useState(localStorage.getItem('realm'));
     const navigate = useNavigate();
 
-    const handleSaveCharacter = () => {
-        window.localStorage.setItem("character", characterName);
-        window.localStorage.setItem("realm", realm);
+    const handleLoginClick = () => {
+        setDialogOpen(true);
+    };
+
+    const handleClose = () => {
+        setDialogOpen(false);
+        setCharacterName(localStorage.getItem('character'));
+        setRealm(localStorage.getItem('realm'));
         navigate('/mounts');
-        setCharacterName('');
-        setRealm('');
-    }
+    };
 
     const handleLogout = () => {
         window.localStorage.removeItem("character");
         window.localStorage.removeItem("realm");
-        setCharacterName(null)
-        setRealm(null)
+        setCharacterName(null);
+        setRealm(null);
         navigate('/');
-    }
+    };
+
+    const isLoggedIn = () => window.localStorage.getItem("character") && window.localStorage.getItem("realm");
 
     return (
         <AppBar position="sticky">
             <Toolbar>
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={isDarkMode}
-                            color="primary"
-                            onChange={() => onIsDarkMode(isDarkMode => !isDarkMode)}
-                        />}
-                    label="Dark"
-                    labelPlacement="start"
-                />
-                <Grid container alignItems="center" justifyContent="center" spacing={4}>
+                <Grid container style={{alignItems: "center", justifyContent: "space-between", width: "100%"}}>
                     <Grid item>
-                        <img src={myImage} alt="Description"  style={{ width: "120px", height: "auto", margin: "0px" }} />
-
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={isDarkMode}
+                                    color="primary"
+                                    onChange={() => onIsDarkMode(isDarkMode => !isDarkMode)}
+                                />
+                            }
+                            label="Dark"
+                            labelPlacement="start"
+                        />
                     </Grid>
-                    {/*<Grid item>*/}
-                    {/*    <Typography variant="h6">Collections</Typography>*/}
-                    {/*</Grid>*/}
-                    <Grid item>
-                        <Grid container spacing={2}>
+
+                    <Grid item style={{flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
+                        <Grid container spacing={2} style={{alignItems: "center", justifyContent: "center"}}>
                             <Grid item>
-                                <NavButton to="/achievements" label="Achievements" />
+                                <img src={wowLogo} alt="Logo" style={{width: "120px", height: "auto"}}/>
+                            </Grid>
+                            {/*<Grid item>*/}
+                            {/*    <Typography variant={"h4"}*/}
+                            {/*                fontFamily={'Times new roman, serif'}>Collections</Typography>*/}
+                            {/*</Grid>*/}
+                            <Grid item>
+                                <NavButton to="/achievements" label="Achievements" disabled={!isLoggedIn()}/>
                             </Grid>
                             <Grid item>
-                                <NavButton to="/mounts" label="Mounts" />
+                                <NavButton to="/mounts" label="Mounts" disabled={!isLoggedIn()}/>
                             </Grid>
                             <Grid item>
-                                <TextField
-                                    id="userName"
-                                    label="Username"
-                                    value={characterName}
-                                    size={"small"}
-                                    onChange={(event) => setCharacterName(event.target.value)}
-                                    style={{marginRight: "10px"}}
-                                />
-                                <TextField
-                                    id="realm"
-                                    label="Realm"
-                                    value={realm}
-                                    size={"small"}
-                                    onChange={(event) => setRealm(event.target.value)}
-                                />
+                                <NavButton to="/pets" label="Pets" disabled={!isLoggedIn()}/>
                             </Grid>
-                            <Grid item>
-                                <Button variant="contained" color={"secondary"} disabled={!characterName || !realm } onClick={handleSaveCharacter}>Login</Button>
-                            </Grid>
-                            <Grid item>
-                            <Typography variant="h6">{ window.localStorage.getItem("character")}</Typography>
                         </Grid>
+                    </Grid>
+
+                    <Grid item style={{display: 'flex', alignItems: 'center'}}>
+                        <Grid item style={{marginRight: "5px", display: "flex"}}>
+                            <CharacterAvatar characterName={characterName} realm={realm}/>
+                        </Grid>
+                        <Grid item>
+                            {!isLoggedIn() ? (
+                                <Button variant="contained" color={"secondary"} onClick={handleLoginClick}>
+                                    Login
+                                </Button>
+                            ) : (
+                                <Button variant="contained" color={"secondary"} onClick={handleLogout}>
+                                    Logout
+                                </Button>
+                            )}
+                            <LoginDialog open={dialogOpen} onClose={handleClose}/>
                         </Grid>
                     </Grid>
                 </Grid>
-                <Button variant="contained" color={"secondary"} disabled={window.localStorage.getItem("character") === null} onClick={handleLogout}>Logout</Button>
             </Toolbar>
         </AppBar>
+
     );
 }
 
