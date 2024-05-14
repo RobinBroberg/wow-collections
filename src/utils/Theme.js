@@ -34,6 +34,10 @@ export const lightTheme = createTheme({
             main: '#2f4f4f',
             //681f4a maybe?
         },
+        background: {
+            default: '#f2f2f2',
+        }
+
     },
     components: {
         MuiTextField: {

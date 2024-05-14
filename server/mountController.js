@@ -30,7 +30,7 @@ function saveMountsDataToFile(data) {
 
 function readMountsDataFromFile() {
     try {
-        const data = readFileSync('data/mountsData.json');
+        const data = readFileSync('data/mountsData.json', 'utf8');
         return JSON.parse(data);
     } catch (error) {
         console.error('Failed to read mounts data from file:', error);

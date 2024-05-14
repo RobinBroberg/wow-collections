@@ -5,6 +5,11 @@ const {writeFileSync, readFileSync, existsSync} = require("fs");
 const router = express.Router();
 
 
+
+function delay(duration) {
+    return new Promise(resolve => setTimeout(resolve, duration));
+}
+
 async function fetchAchievementData() {
     try {
         const accessToken = await getBlizzardAccessToken();
@@ -24,6 +29,8 @@ async function fetchAchievementIcon(achievementId) {
         const response = await axios.get(
             `https://eu.api.blizzard.com/data/wow/media/achievement/${achievementId}?namespace=static-eu&access_token=${accessToken}`
         );
+        const delayTime = 100;
+        await delay(delayTime);
         console.log(response.data.assets.find(asset => asset.key === 'icon')?.value);
         return response.data.assets.find(asset => asset.key === 'icon')?.value;
     } catch (error) {
@@ -33,43 +40,64 @@ async function fetchAchievementIcon(achievementId) {
 
 }
 
+async function fetchAchievementCategory(achievementId) {
+    try {
+        const accessToken = await getBlizzardAccessToken();
 
+        const response = await axios.get(
+            `https://eu.api.blizzard.com/data/wow/achievement/${achievementId}?namespace=static-eu&locale=en_GB&access_token=${accessToken}`
+        );
+        const delayTime = 100;
+        await delay(delayTime);
+        const categoryData = {
+            id: response.data.category.id,
+            name: response.data.category.name,
+        };
 
+        console.log("Category Data:", categoryData);
+        return categoryData;
+    } catch (error) {
+        console.error(`Failed to retrieve icon for achievement ID ${achievementId}:`, error);
+        return null;
+    }
 
-async function enrichAchievementsWithIcons() {
+}
+
+async function addCategoryAndIconToAchievement() {
     try {
         const pLimit = (await import('p-limit')).default;
         const limit = pLimit(1);
         const basicAchievements = await fetchAchievementData();
+
         const promises = basicAchievements.achievements.map(achievement =>
-            limit(() => fetchAchievementIcon(achievement.id))
+            limit(async () => {
+                const iconUrl = await fetchAchievementIcon(achievement.id);
+                const categoryData = await fetchAchievementCategory(achievement.id);
+                return { ...achievement, iconUrl, category: categoryData };
+            })
         );
 
         const results = await Promise.allSettled(promises);
-
-        const enrichedAchievements = results.map((result, index) => {
-            if (result.status === 'fulfilled' && result.value !== null) {
-                return { ...basicAchievements.achievements[index], iconUrl: result.value };
+        return results.map((result, index) => {
+            if (result.status === 'fulfilled') {
+                return result.value;
             } else {
-
-                console.error(`Failed to retrieve icon for achievement ID ${basicAchievements.achievements[index].id}:`, result.reason);
-                return { ...basicAchievements.achievements[index], iconUrl: null };
+                console.error(`Failed to enrich achievement with ID ${basicAchievements.achievements[index].id}:`,
+                    result.reason);
+                return {...basicAchievements.achievements[index], iconUrl: null, category: null};
             }
         });
-
-        return enrichedAchievements;
     } catch (error) {
-        console.error('Failed to enrich achievements with icons:', error);
+        console.error('Failed to enrich achievements:', error);
         throw error;
     }
 }
 
 
 
-
 function saveAchievementDataToFile(data) {
     try {
-        writeFileSync('data/achievementData.json', JSON.stringify(data));
+        writeFileSync('data/achievementData.json', JSON.stringify(data, null, 2));
         console.log('Achievements data saved to file.');
     } catch (error) {
         console.error('Failed to save achievements data to file:', error);
@@ -79,7 +107,7 @@ function saveAchievementDataToFile(data) {
 
 function readAchievementDataFromFile() {
     try {
-        const data = readFileSync('data/achievementData.json');
+        const data = readFileSync('data/achievementData.json', 'utf8');
         return JSON.parse(data);
     } catch (error) {
         console.error('Failed to read achievment data from file:', error);
@@ -93,7 +121,7 @@ router.get('/', async (req, res) => {
         achievementData = readAchievementDataFromFile();
         // console.log(getBlizzardAccessToken())
     } else {
-        achievementData = await enrichAchievementsWithIcons();
+        achievementData = await addCategoryAndIconToAchievement();
         saveAchievementDataToFile(achievementData);
     }
     res.json(achievementData);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Grid, List, ListItem, Paper} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/utils";
 import {CustomLink} from "../utils/Theme";
+import wowLogo from "../data/icons/World-of-Warcraft-Logo-2004.png";
 
 function Achievements() {
     const [achievements, setAchievements] = useState([]);
@@ -12,8 +13,8 @@ function Achievements() {
         axios.get('http://localhost:5000/achievements')
         .then(response => {
             console.log("API Response", response.data)
-            if (response.status === 200 && response.data && response.data.achievements) {
-                setAchievements(response.data.achievements);
+            if (response.status === 200 && Array.isArray(response.data) && response.data.length > 0) {
+                setAchievements(response.data);
                 refreshWowheadTooltips();
             } else {
                 throw new Error('Failed to fetch achievements');
@@ -39,6 +40,7 @@ function Achievements() {
                             <ListItem key={achievement.id}>
                                 <CustomLink href={`https://www.wowhead.com/achievement=${achievement.id}`} target="_blank"
                                    rel="noopener noreferrer">
+                                    <img src={achievement.iconUrl} alt="Icon" style={{width: "40px", height: "auto"}}/>
                                 </CustomLink>
                             </ListItem>
                         ))}
