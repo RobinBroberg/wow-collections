@@ -119,7 +119,6 @@ router.get('/', async (req, res) => {
     let achievementData;
     if (existsSync('data/achievementData.json')) {
         achievementData = readAchievementDataFromFile();
-        // console.log(getBlizzardAccessToken())
     } else {
         achievementData = await addCategoryAndIconToAchievement();
         saveAchievementDataToFile(achievementData);

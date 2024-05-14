@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
     Dialog,
     DialogActions,
@@ -9,13 +9,13 @@ import {
     Button,
     Autocomplete
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import realmData from '../data/realmData/realmData.json';
 
-
-function LoginDialog({ open, onClose }) {
+function LoginDialog({open, onClose}) {
     const [characterName, setCharacterName] = useState('');
     const [realm, setRealm] = useState('');
+    const [inputValue, setInputValue] = useState('');
     const navigate = useNavigate();
     const realms = realmData.realms.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -23,7 +23,7 @@ function LoginDialog({ open, onClose }) {
         window.localStorage.setItem("character", characterName.toLowerCase());
         window.localStorage.setItem("realm", realm);
         onClose();
-        navigate('/mounts');
+        navigate('/');
     };
 
     return (
@@ -46,12 +46,13 @@ function LoginDialog({ open, onClose }) {
                 <Autocomplete
                     freeSolo
                     id="realm-autocomplete"
-                    options={realms.map((option) => option.name)}
-                    value={realm}
+                    options={realms}
+                    getOptionLabel={(option) => option.name}
+                    value={realms.find(r => r.slug === realm) || null}
+                    inputValue={inputValue}
+                    onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
                     onChange={(event, newValue) => {
-
-                        const selectedRealm = realms.find(realm => realm.name === newValue);
-                        setRealm(selectedRealm ? selectedRealm.slug : '');
+                        setRealm(newValue ? newValue.slug : '');
                     }}
                     renderInput={(params) => (
                         <TextField
@@ -65,7 +66,8 @@ function LoginDialog({ open, onClose }) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} variant="contained" color={"secondary"}>Cancel</Button>
-                <Button onClick={handleSaveCharacter} variant="contained" color={"secondary"} disabled={!characterName || !realm}>Login</Button>
+                <Button onClick={handleSaveCharacter} variant="contained" color={"secondary"}
+                        disabled={!characterName || !realm}>Login</Button>
             </DialogActions>
         </Dialog>
     );

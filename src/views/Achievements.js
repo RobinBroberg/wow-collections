@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Grid, List, ListItem, Paper} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/utils";
 import {CustomLink} from "../utils/Theme";
-import wowLogo from "../data/icons/World-of-Warcraft-Logo-2004.png";
+
 
 function Achievements() {
     const [achievements, setAchievements] = useState([]);
@@ -37,7 +37,7 @@ function Achievements() {
                 <Paper elevation={2} style={{padding: '20px'}}>
                     <List>
                         {achievements.map(achievement => (
-                            <ListItem key={achievement.id}>
+                            <ListItem key={achievement.id} style={{display: "inline"}}>
                                 <CustomLink href={`https://www.wowhead.com/achievement=${achievement.id}`} target="_blank"
                                    rel="noopener noreferrer">
                                     <img src={achievement.iconUrl} alt="Icon" style={{width: "40px", height: "auto"}}/>

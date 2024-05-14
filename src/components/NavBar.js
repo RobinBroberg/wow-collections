@@ -58,10 +58,6 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                             <Grid item>
                                 <img src={wowLogo} alt="Logo" style={{width: "120px", height: "auto"}}/>
                             </Grid>
-                            {/*<Grid item>*/}
-                            {/*    <Typography variant={"h4"}*/}
-                            {/*                fontFamily={'Times new roman, serif'}>Collections</Typography>*/}
-                            {/*</Grid>*/}
                             <Grid item>
                                 <NavButton to="/achievements" label="Achievements" disabled={!isLoggedIn()}/>
                             </Grid>

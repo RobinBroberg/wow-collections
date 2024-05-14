@@ -5,21 +5,20 @@ function CharacterAvatar({ characterName, realm }) {
     const [avatarUrl, setAvatarUrl] = useState('');
 
     useEffect(() => {
-        async function fetchAvatarUrl() {
+
+        (async () => {
             if (characterName && realm) {
                 try {
                     const url = await generateCharacterAvatarLink(characterName, realm);
                     setAvatarUrl(url);
-                } catch (err) {
-                    console.error('Failed to load character avatar:', err);
+                } catch (error) {
+                    console.error('Failed to load character avatar:', error);
                     setAvatarUrl('');
                 }
             } else {
                 setAvatarUrl('');
             }
-        }
-
-        fetchAvatarUrl();
+        })();
     }, [characterName, realm]);
 
     return avatarUrl ? (
