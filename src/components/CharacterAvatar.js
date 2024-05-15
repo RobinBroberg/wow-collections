@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { generateCharacterAvatarLink } from "../utils/utils";
+import { generateCharacterAvatarLink } from "../utils/Utils";
+import {Avatar, Link} from "@mui/material";
 
 function CharacterAvatar({ characterName, realm }) {
     const [avatarUrl, setAvatarUrl] = useState('');
@@ -22,7 +23,10 @@ function CharacterAvatar({ characterName, realm }) {
     }, [characterName, realm]);
 
     return avatarUrl ? (
-        <img src={avatarUrl} alt="Avatar" style={{ width: "45px", height: "auto", margin: "0px" }} />
+        <Link href={`https://worldofwarcraft.blizzard.com/en-gb/character/eu/${realm}/${characterName}`} target="_blank" rel="noopener noreferrer">
+            <Avatar src={avatarUrl} alt="Avatar" sx={{ width: "50px", height: "auto", margin: "5px" }} />
+        </Link>
+
     ) : null;
 }
 

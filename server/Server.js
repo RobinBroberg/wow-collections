@@ -3,9 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
-const mountController = require('./mountController');
-const achievementController = require('./achievementController')
-const characterController = require('./characterController')
+const mountController = require('./MountController');
+const achievementController = require('./AchievementController')
+const characterController = require('./CharacterController')
 
 app.use(cors({
     origin: 'http://localhost:3000'

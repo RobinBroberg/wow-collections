@@ -1,7 +1,8 @@
 const express = require("express");
 const axios = require("axios");
-const {getBlizzardAccessToken} = require("./blizzardService");
-const {writeFileSync, readFileSync, existsSync} = require("fs");
+const {getBlizzardAccessToken} = require("./BlizzardService");
+const {existsSync} = require("fs");
+const {readDataFromFile, saveDataToFile} = require("./utils/Utils");
 const router = express.Router();
 
 
@@ -11,6 +12,7 @@ function delay(duration) {
 }
 
 async function fetchAchievementData() {
+
     try {
         const accessToken = await getBlizzardAccessToken();
         const response = await axios.get(
@@ -93,37 +95,22 @@ async function addCategoryAndIconToAchievement() {
     }
 }
 
-
-
-function saveAchievementDataToFile(data) {
-    try {
-        writeFileSync('data/achievementData.json', JSON.stringify(data, null, 2));
-        console.log('Achievements data saved to file.');
-    } catch (error) {
-        console.error('Failed to save achievements data to file:', error);
-        throw error;
-    }
-}
-
-function readAchievementDataFromFile() {
-    try {
-        const data = readFileSync('data/achievementData.json', 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Failed to read achievment data from file:', error);
-        throw error;
-    }
-}
-
 router.get('/', async (req, res) => {
-    let achievementData;
-    if (existsSync('data/achievementData.json')) {
-        achievementData = readAchievementDataFromFile();
-    } else {
-        achievementData = await addCategoryAndIconToAchievement();
-        saveAchievementDataToFile(achievementData);
+    try {
+        const filePath = 'data/achievementData.json';
+        let achievementData;
+
+        if (existsSync(filePath)) {
+            achievementData = readDataFromFile(filePath);
+        } else {
+            achievementData = await addCategoryAndIconToAchievement();
+            saveDataToFile(achievementData, filePath);
+        }
+        res.json(achievementData);
+    } catch (error) {
+        console.error('Error handling request:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-    res.json(achievementData);
 });
 
 

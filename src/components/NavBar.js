@@ -1,4 +1,4 @@
-import {AppBar, Toolbar, Grid, Button, FormControlLabel, Switch, Typography} from '@mui/material';
+import {AppBar, Toolbar, Grid, Button, FormControlLabel, Switch, Typography, Box} from '@mui/material';
 
 import NavButton from "./Buttons/NavButton";
 import {useState} from "react";
@@ -38,7 +38,7 @@ function NavBar({onIsDarkMode, isDarkMode}) {
     return (
         <AppBar position="sticky">
             <Toolbar>
-                <Grid container style={{alignItems: "center", justifyContent: "space-between", width: "100%"}}>
+                <Grid container sx={{alignItems: "center", justifyContent: "space-between", width: "100%"}}>
                     <Grid item>
                         <FormControlLabel
                             control={
@@ -53,10 +53,10 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                         />
                     </Grid>
 
-                    <Grid item style={{flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
-                        <Grid container spacing={2} style={{alignItems: "center", justifyContent: "center"}}>
+                    <Grid item sx={{flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
+                        <Grid container spacing={2} sx={{alignItems: "center", justifyContent: "center"}}>
                             <Grid item>
-                                <img src={wowLogo} alt="Logo" style={{width: "120px", height: "auto"}}/>
+                                <Box component="img" src={wowLogo} alt="Logo" sx={{width: "120px", height: "auto"}}/>
                             </Grid>
                             <Grid item>
                                 <NavButton to="/achievements" label="Achievements" disabled={!isLoggedIn()}/>
@@ -70,8 +70,8 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                         </Grid>
                     </Grid>
 
-                    <Grid item style={{display: 'flex', alignItems: 'center'}}>
-                        <Grid item style={{marginRight: "5px", display: "flex"}}>
+                    <Grid item sx={{display: 'flex', alignItems: 'center'}}>
+                        <Grid item sx={{marginRight: "5px", display: "flex"}}>
                             <CharacterAvatar characterName={characterName} realm={realm}/>
                         </Grid>
                         <Grid item>

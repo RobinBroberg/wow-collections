@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Achievements from "./views/Achievements";
 import Mounts from "./views/Mounts";
 import {CssBaseline, ThemeProvider} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import NavBar from "./components/NavBar";
 import {darkTheme, lightTheme} from "./utils/Theme";
 
@@ -14,7 +14,15 @@ import {darkTheme, lightTheme} from "./utils/Theme";
 
 function App() {
 
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const savedMode = localStorage.getItem('isDarkMode');
+        return savedMode !== null ? JSON.parse(savedMode) : false;
+    });
+
+    useEffect(() => {
+        localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
+    }, [isDarkMode]);
+
     const theme = isDarkMode ? darkTheme : lightTheme;
 
     return (
