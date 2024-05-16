@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Box, Grid, ImageList, ImageListItem, Paper, Typography} from "@mui/material";
+import {Box, Grid, ImageList, ImageListItem, Link, Paper, Typography} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/Utils";
-import {CustomLink} from "../utils/Theme";
 import {Spinner} from "../components/Spinner";
 
 
@@ -53,10 +52,11 @@ function Achievements() {
                     }}>
                         {achievements.map(achievement => (
                             <ImageListItem key={achievement.id}>
-                                <CustomLink href={`https://www.wowhead.com/achievement=${achievement.id}`} target="_blank"
-                                   rel="noopener noreferrer">
+                                <Link href={`https://www.wowhead.com/achievement=${achievement.id}`} target="_blank"
+                                   rel="noopener noreferrer"
+                                      sx={{marginRight: "10px"}}>
                                     <Box component="img" src={achievement.iconUrl} alt="Icon" sx={{width: "40px", height: "auto"}}/>
-                                </CustomLink>
+                                </Link>
                             </ImageListItem>
                         ))}
                     </ImageList>

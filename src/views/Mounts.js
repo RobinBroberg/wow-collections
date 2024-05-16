@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Box, Grid, ImageList, ImageListItem, Paper, Typography} from "@mui/material";
+import {Box, Grid, ImageList, ImageListItem, Link, Paper, Typography} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/Utils";
 import {IGNORE_MOUNT_ID, EXPANSIONS, LEGACY} from "../data/mountData/mountData";
-import {CustomLink} from "../utils/Theme";
-import './Styles.css';
 import {Spinner} from "../components/Spinner";
 
 function Mounts() {
@@ -78,7 +76,7 @@ function Mounts() {
     return (
         <Grid container sx={{display: "flex", justifyContent: "center"}}>
             <Grid item xs={8}>
-                <Typography variant={"h4"} sx={{marginBottom: 1, marginTop: 3}}>Mounts</Typography>
+                <Typography variant={"h4"} sx={{marginBottom: 1, marginTop: 3, marginLeft: 1}}>Mounts</Typography>
                 <Paper elevation={2} sx={{padding: '20px'}}>
                     {groupedMounts.map(expansion => (
                         <Grid key={expansion.name}>
@@ -93,17 +91,27 @@ function Mounts() {
                             }} cols={15}>
                                 {expansion.mounts.map(mount => (
                                     <ImageListItem key={mount.id}>
-                                        <CustomLink
+                                        <Link
                                             href={`https://www.wowhead.com/mount/${mount.id}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
+                                            sx={{marginRight: "10px"}}
                                         >
                                             <Box
                                                 component="img"
                                                 src={`https://render.worldofwarcraft.com/eu/npcs/zoom/creature-display-${mount.display_id}.jpg`}
                                                 alt="Icon"
-                                                className={`mountDisplay ${!mount.collected ? 'grayscale' : ''}`}/>
-                                        </CustomLink>
+                                                sx={{
+                                                    width: '70px',
+                                                    height: 'auto',
+                                                    filter: mount.collected ? 'none' : 'grayscale(100%)',
+                                                    opacity: mount.collected ? 1 : 0.3,
+                                                    '&:hover': {
+                                                        filter: 'none',
+                                                        opacity: 1,
+                                                    },
+                                                }}/>
+                                        </Link>
                                     </ImageListItem>
                                 ))}
                             </ImageList>

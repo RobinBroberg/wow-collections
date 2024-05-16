@@ -1,9 +1,10 @@
-import {AppBar, Toolbar, Grid, Button, FormControlLabel, Switch, Typography, Box} from '@mui/material';
+import {AppBar, Toolbar, Grid, Button, FormControlLabel, Switch, Box} from '@mui/material';
 
 import NavButton from "./Buttons/NavButton";
 import {useState} from "react";
 import {useNavigate} from 'react-router-dom';
-import wowLogo from "../data/icons/World-of-Warcraft-Logo-2004.png"
+import wowLogoDark from "../data/icons/SiteLogo2.png"
+import wowLogoLight from "../data/icons/SiteLogo3.png"
 import CharacterAvatar from "./CharacterAvatar";
 import LoginDialog from "./LoginDialog";
 
@@ -39,7 +40,7 @@ function NavBar({onIsDarkMode, isDarkMode}) {
         <AppBar position="sticky">
             <Toolbar>
                 <Grid container sx={{alignItems: "center", justifyContent: "space-between", width: "100%"}}>
-                    <Grid item>
+                    <Grid item xs={2}>
                         <FormControlLabel
                             control={
                                 <Switch
@@ -52,12 +53,10 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                             labelPlacement="start"
                         />
                     </Grid>
-
-                    <Grid item sx={{flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
-                        <Grid container spacing={2} sx={{alignItems: "center", justifyContent: "center"}}>
-                            <Grid item>
-                                <Box component="img" src={wowLogo} alt="Logo" sx={{width: "120px", height: "auto"}}/>
-                            </Grid>
+                    <Grid sx={{flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
+                        <Grid container spacing={2} sx={{alignItems: "center"}}>
+                            <Box component="img" src={isDarkMode ? wowLogoDark : wowLogoLight} alt="Logo"
+                                 sx={{width: "auto", height: "50px", marginRight: "50px", marginTop: 2}}/>
                             <Grid item>
                                 <NavButton to="/achievements" label="Achievements" disabled={!isLoggedIn()}/>
                             </Grid>

@@ -42,6 +42,11 @@ function LoginDialog({open, onClose}) {
                     fullWidth
                     value={characterName}
                     onChange={e => setCharacterName(e.target.value)}
+                    sx={{
+                        '& .Mui-focused.MuiAutocomplete-input': {
+                            color: "black"
+                        },
+                    }}
                 />
                 <Autocomplete
                     freeSolo

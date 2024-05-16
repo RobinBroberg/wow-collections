@@ -1,34 +1,11 @@
-import {createTheme, styled} from '@mui/material/styles';
-
-const commonOverrides = {
-    components: {
-        MuiTextField: {
-            styleOverrides: {
-                root: {
-                    height: '40px',
-                    '& .MuiInputBase-root': {
-                        height: '100%',
-                    },
-                }
-            }
-        },
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    height: '40px'
-                }
-            }
-        }
-    }
-};
+import {createTheme} from '@mui/material/styles';
 
 export const lightTheme = createTheme({
 
-    ...commonOverrides,
     palette: {
         mode: 'light',
         primary: {
-            main: '#989191',
+            main: '#f1ecef',
         },
         secondary: {
             main: '#2f4f4f',
@@ -60,16 +37,26 @@ export const lightTheme = createTheme({
 });
 
 export const darkTheme = createTheme({
+
     palette: {
         mode: 'dark',
         secondary: {
             main: '#b0c4de',
         },
     },
-    ...commonOverrides
-});
+    components: {
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    input: {
+                        "&:-webkit-autofill": {
+                            WebkitBoxShadow: "0 0 0 100px #616161 inset",
+                            WebkitTextFillColor: "default",
+                        },
+                    },
+                },
+            },
+        },
+    },
 
-export const CustomLink = styled('a')(({theme}) => ({
-    marginRight: '10px',
-    color: theme.palette.secondary.main,
-}));
+});
