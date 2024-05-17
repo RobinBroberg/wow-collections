@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Box, Grid, ImageList, ImageListItem, Link, Paper, Typography} from "@mui/material";
+import {Grid, Paper, Typography} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/Utils";
 import {IGNORE_MOUNT_ID, EXPANSIONS, LEGACY} from "../data/mountData/mountData";
 import {Spinner} from "../components/Spinner";
+import MountList from "../components/MountList";
 
 function Mounts() {
     const [mounts, setMounts] = useState([]);
@@ -47,25 +48,6 @@ function Mounts() {
         });
     }, []);
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
-    const groupedMounts = EXPANSIONS.map(expansion => {
-        if (expansion.name === 'Legacy') {
-            return {
-                name: expansion.name,
-                mounts: mounts.filter(mount => LEGACY.includes(mount.id)),
-            };
-        } else {
-            return {
-                name: expansion.name,
-                mounts: mounts.filter(
-                    mount => mount.id >= expansion.range[0] && mount.id <= expansion.range[1] && !LEGACY.includes(
-                        mount.id)),
-            };
-        }
-    });
 
     if (loading) {
         return (
@@ -73,48 +55,83 @@ function Mounts() {
         )
     }
 
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    const excludedSources = new Set(['TRADINGPOST', 'TCG', 'PETSTORE', 'PROMOTION', 'WORLDEVENT', 'PROFESSION']);
+    const legacyMounts = mounts.filter(mount => LEGACY.includes(mount.id));
+
+    const categoryFilters = {
+        'World Event': mount => mount.source === 'WORLDEVENT',
+        'Profession': mount => mount.source === 'PROFESSION',
+        'Trading Post': mount => mount.source === 'TRADINGPOST',
+        'TCG': mount => mount.source === 'TCG',
+        'Pet Store': mount => mount.source === 'PETSTORE' || mount.source === 'PROMOTION',
+
+    };
+
+    const categorizedMounts = Object.entries(categoryFilters).map(([name, filter]) => ({
+        name,
+        mounts: mounts.filter(filter),
+    }));
+
+    const expansionMounts = EXPANSIONS.map(expansion => {
+        const mountsBySource = mounts
+        .filter(mount =>
+            mount.id >= expansion.range[0] &&
+            mount.id <= expansion.range[1] &&
+            !LEGACY.includes(mount.id) &&
+            !excludedSources.has(mount.source)
+        )
+        .reduce((acc, mount) => {
+            if (!acc[mount.source]) {
+                acc[mount.source] = [];
+            }
+            acc[mount.source].push(mount);
+            return acc;
+        }, {});
+
+        return {
+            name: expansion.name,
+            mounts: Object.keys(mountsBySource).map(source => ({
+                source,
+                mounts: mountsBySource[source],
+            })),
+        };
+    });
+
+    const groupedMounts = [
+        ...expansionMounts.filter(expansion => expansion.name !== 'Legacy'),
+        ...categorizedMounts,
+        { name: 'Legacy', mounts: legacyMounts }
+    ];
+
+
     return (
-        <Grid container sx={{display: "flex", justifyContent: "center"}}>
+        <Grid container sx={{ display: "flex", justifyContent: "center" }}>
             <Grid item xs={8}>
-                <Typography variant={"h4"} sx={{marginBottom: 1, marginTop: 3, marginLeft: 1}}>Mounts</Typography>
-                <Paper elevation={2} sx={{padding: '20px'}}>
-                    {groupedMounts.map(expansion => (
-                        <Grid key={expansion.name}>
-                            <Typography variant="h4" sx={{marginTop: '20px', marginLeft: 4, marginBottom: 1}}>
-                                {expansion.name}
+                <Typography variant={"h4"} sx={{ marginBottom: 1, marginTop: 3, marginLeft: 1, fontWeight: "bold" }}>Mounts</Typography>
+                <Paper elevation={2} sx={{ padding: '20px' }}>
+                    {groupedMounts.map((category, index) => (
+                        <Grid key={category.name} sx={{ marginTop: index === 0 ? 0 : 10 }}>
+                            <Typography variant="h4" sx={{ marginTop: 2, marginLeft: 3, marginBottom: 3 }}>
+                                {category.name}
                             </Typography>
-                            <ImageList sx={{
-                                marginLeft: 4,
-                                marginBottom: 10,
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                            }} cols={15}>
-                                {expansion.mounts.map(mount => (
-                                    <ImageListItem key={mount.id}>
-                                        <Link
-                                            href={`https://www.wowhead.com/mount/${mount.id}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            sx={{marginRight: "10px"}}
-                                        >
-                                            <Box
-                                                component="img"
-                                                src={`https://render.worldofwarcraft.com/eu/npcs/zoom/creature-display-${mount.display_id}.jpg`}
-                                                alt="Icon"
-                                                sx={{
-                                                    width: '70px',
-                                                    height: 'auto',
-                                                    filter: mount.collected ? 'none' : 'grayscale(100%)',
-                                                    opacity: mount.collected ? 1 : 0.3,
-                                                    '&:hover': {
-                                                        filter: 'none',
-                                                        opacity: 1,
-                                                    },
-                                                }}/>
-                                        </Link>
-                                    </ImageListItem>
-                                ))}
-                            </ImageList>
+                            {Array.isArray(category.mounts[0]?.mounts) ? (
+                                category.mounts.map(sourceGroup => (
+                                    <Grid key={sourceGroup.source} sx={{ marginLeft: 4, marginRight: 4 }}>
+                                        <Typography variant="subtitle1" sx={{ marginTop: 1 }}>
+                                            {sourceGroup.source}
+                                        </Typography>
+                                        <MountList mounts={sourceGroup.mounts} />
+                                    </Grid>
+                                ))
+                            ) : (
+                                <Grid sx={{ marginLeft: 4, marginRight: 4 }}>
+                                    <MountList mounts={category.mounts} />
+                                </Grid>
+                            )}
                         </Grid>
                     ))}
                 </Paper>

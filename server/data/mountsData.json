@@ -1452,7 +1452,7 @@
       "name": "Swift Brewfest Ram",
       "id": 202,
       "display_id": 22350,
-      "source": "DROP"
+      "source": "WORLDEVENT"
     },
     {
       "key": {
@@ -10413,7 +10413,8 @@
       },
       "name": "Twilight Sky Prowler",
       "id": 1958,
-      "display_id": 116387
+      "display_id": 116387,
+      "source": "PETSTORE"
     },
     {
       "key": {

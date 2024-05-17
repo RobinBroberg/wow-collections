@@ -3,8 +3,7 @@ import {AppBar, Toolbar, Grid, Button, FormControlLabel, Switch, Box} from '@mui
 import NavButton from "./Buttons/NavButton";
 import {useState} from "react";
 import {useNavigate} from 'react-router-dom';
-import wowLogoDark from "../data/icons/SiteLogo2.png"
-import wowLogoLight from "../data/icons/SiteLogo3.png"
+import wowLogoLight from "../data/icons/SiteLogo.png"
 import CharacterAvatar from "./CharacterAvatar";
 import LoginDialog from "./LoginDialog";
 
@@ -55,7 +54,7 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                     </Grid>
                     <Grid sx={{flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
                         <Grid container spacing={2} sx={{alignItems: "center"}}>
-                            <Box component="img" src={isDarkMode ? wowLogoDark : wowLogoLight} alt="Logo"
+                            <Box component="img" src={wowLogoLight} alt="Logo"
                                  sx={{width: "auto", height: "50px", marginRight: "50px", marginTop: 2}}/>
                             <Grid item>
                                 <NavButton to="/achievements" label="Achievements" disabled={!isLoggedIn()}/>
