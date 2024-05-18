@@ -26,9 +26,11 @@ async function fetchMountDetails(mountId) {
         );
         const displayId = response.data.creature_displays[0]?.id;
         const sourceType = response.data.source?.type;
+        const faction = response.data.faction?.type;
         return {
             display_id: displayId,
             source: sourceType,
+            faction: faction,
         };
     } catch (error) {
         console.error(`Failed to retrieve details for mount ID ${mountId}:`, error);
@@ -63,7 +65,6 @@ async function addDetailsToMounts() {
         throw error;
     }
 }
-//https://render.worldofwarcraft.com/eu/npcs/zoom/creature-display-2404.jpg
 
 router.get('/', async (req, res) => {
     try {
@@ -87,15 +88,25 @@ router.get('/', async (req, res) => {
 router.get('/collected', async (req, res) => {
     try {
         const accessToken = await getBlizzardAccessToken();
-        const {characterName, realm} = req.query;
-        const response = await axios.get(
-            `https://eu.api.blizzard.com/profile/wow/character/${realm}/${characterName}/collections/mounts?namespace=profile-eu&locale=en_GB&access_token=${accessToken}`);
-        res.json(response.data);
+        const { characterName, realm } = req.query;
+        const characterResponse = await axios.get(
+            `https://eu.api.blizzard.com/profile/wow/character/${realm}/${characterName}?namespace=profile-eu&locale=en_GB&access_token=${accessToken}`
+        );
+        const mountsResponse = await axios.get(
+            `https://eu.api.blizzard.com/profile/wow/character/${realm}/${characterName}/collections/mounts?namespace=profile-eu&locale=en_GB&access_token=${accessToken}`
+        );
+        const faction = characterResponse.data.faction.type;
+        const collectedMounts = mountsResponse.data;
+        res.json({
+            faction,
+            collectedMounts,
+        });
     } catch (error) {
         console.error('Failed to retrieve collected mounts:', error);
-        res.status(500).json({message: "Failed to retrieve collected mount data"});
+        res.status(500).json({ message: "Failed to retrieve collected mount data" });
     }
 });
+
 
 module.exports = router;
 

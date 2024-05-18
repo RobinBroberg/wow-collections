@@ -1,11 +1,12 @@
-import {AppBar, Toolbar, Grid, Button, FormControlLabel, Switch, Box} from '@mui/material';
+import {AppBar, Toolbar, Grid, Button, FormControlLabel, Box} from '@mui/material';
 
 import NavButton from "./Buttons/NavButton";
 import {useState} from "react";
 import {useNavigate} from 'react-router-dom';
-import wowLogoLight from "../data/icons/SiteLogo.png"
+import siteLogo from "../data/icons/SiteLogo.png"
 import CharacterAvatar from "./CharacterAvatar";
 import LoginDialog from "./LoginDialog";
+import {MaterialUISwitch} from "../utils/Theme";
 
 function NavBar({onIsDarkMode, isDarkMode}) {
 
@@ -42,19 +43,17 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                     <Grid item xs={2}>
                         <FormControlLabel
                             control={
-                                <Switch
+                                <MaterialUISwitch
                                     checked={isDarkMode}
-                                    color="primary"
                                     onChange={() => onIsDarkMode(isDarkMode => !isDarkMode)}
                                 />
                             }
-                            label="Dark"
-                            labelPlacement="start"
+                            label=""
                         />
                     </Grid>
                     <Grid sx={{flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
                         <Grid container spacing={2} sx={{alignItems: "center"}}>
-                            <Box component="img" src={wowLogoLight} alt="Logo"
+                            <Box component="img" src={siteLogo} alt="Logo"
                                  sx={{width: "auto", height: "50px", marginRight: "50px", marginTop: 2}}/>
                             <Grid item>
                                 <NavButton to="/achievements" label="Achievements" disabled={!isLoggedIn()}/>

@@ -24,6 +24,9 @@ async function fetchAchievementData() {
     }
 }
 
+
+
+
 async function fetchAchievementIcon(achievementId) {
     try {
         const accessToken = await getBlizzardAccessToken();
@@ -113,5 +116,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/completed', async (req, res) => {
+    try {
+        const accessToken = await getBlizzardAccessToken();
+        const {characterName, realm} = req.query;
+        const response = await axios.get(
+            `https://eu.api.blizzard.com/profile/wow/character/${realm}/${characterName}/achievements?namespace=profile-eu&locale=en_GB&access_token=${accessToken}`);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Failed to retrieve character achievements:', error);
+        res.status(500).json({message: "Failed to retrieve collected character achievement data"});
+    }
+});
 
 module.exports = router;

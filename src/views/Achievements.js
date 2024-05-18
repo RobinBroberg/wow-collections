@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Box, Grid, ImageList, ImageListItem, Link, Paper, Typography} from "@mui/material";
+import { Grid,  Paper, Typography} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/Utils";
 import {Spinner} from "../components/Spinner";
+import AchievementList from "../components/AchievementList";
 
 
 function Achievements() {
@@ -11,23 +12,39 @@ function Achievements() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        axios.get('http://localhost:5000/achievements')
-        .then(response => {
-            console.log("API Response", response.data)
-            if (response.status === 200 && Array.isArray(response.data) && response.data.length > 0) {
-                setAchievements(response.data);
-                setLoading(false)
-                refreshWowheadTooltips();
-            } else {
-                throw new Error('Failed to fetch achievements');
+        const characterName = window.localStorage.getItem("character");
+        const realm = window.localStorage.getItem("realm");
+
+        if (!characterName || !realm) {
+            setError("User name and realm are required.");
+            setLoading(false);
+            return;
+        }
+
+        Promise.all([
+            axios.get('http://localhost:5000/achievements'),
+            axios.get(`http://localhost:5000/achievements/completed?characterName=${encodeURIComponent(characterName)}&realm=${encodeURIComponent(realm)}`)
+        ]).then(([allAchievementsResponse, completedAchievementsResponse]) => {
+            if (!allAchievementsResponse.data || !completedAchievementsResponse.data) {
+                throw new Error("Invalid data structure from API");
             }
+
+            const completedIds = new Set(completedAchievementsResponse.data.achievements.map(achievement => achievement.achievement.id));
+            const updatedAchievements = allAchievementsResponse.data.map(achievement => ({
+                ...achievement,
+                collected: completedIds.has(achievement.id)
+            }));
+
+            setAchievements(updatedAchievements);
+            refreshWowheadTooltips();
+            setLoading(false);
         })
         .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+            console.error('There was a problem fetching achievements:', error);
             setError('Failed to load achievements: ' + error.message);
-            setLoading(false)
+            setLoading(false);
         });
-    }, []);
+    }, [])
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -44,22 +61,7 @@ function Achievements() {
             <Grid item xs={8}>
                 <Typography variant={"h4"} sx={{marginBottom: 1, marginTop: 3}}>Achievements</Typography>
                 <Paper elevation={2} sx={{ padding: '20px'}}>
-                    <ImageList sx={{
-                        marginLeft: 4,
-                        marginBottom: 10,
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                    }}>
-                        {achievements.map(achievement => (
-                            <ImageListItem key={achievement.id}>
-                                <Link href={`https://www.wowhead.com/achievement=${achievement.id}`} target="_blank"
-                                   rel="noopener noreferrer"
-                                      sx={{marginRight: "10px"}}>
-                                    <Box component="img" src={achievement.iconUrl} alt="Icon" sx={{width: "40px", height: "auto"}}/>
-                                </Link>
-                            </ImageListItem>
-                        ))}
-                    </ImageList>
+                    <AchievementList achievements={achievements} />
                 </Paper>
             </Grid>
         </Grid>
