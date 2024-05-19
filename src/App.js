@@ -6,6 +6,7 @@ import {CssBaseline, ThemeProvider} from "@mui/material";
 import {useEffect, useState} from "react";
 import NavBar from "./components/NavBar";
 import {darkTheme, lightTheme} from "./utils/Theme";
+import Home from "./views/Home";
 
 
 
@@ -31,6 +32,7 @@ function App() {
             <Router>
                 <NavBar onIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode}/>
                 <Routes>
+                    <Route path="/" element={<Home/>}/>
                     <Route path="/mounts" element={<Mounts/>}/>
                     <Route path="/achievements" element={<Achievements/>}/>
                 </Routes>

@@ -33,7 +33,24 @@ export const lightTheme = createTheme({
                     }
                 }
             }
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    '&.Mui-selected': {
+                        color: '#2f4f4f',
+                    },
+                }
+            }
+        },
+        MuiTabs: {
+            styleOverrides: {
+                indicator: {
+                    backgroundColor: '#2f4f4f',
+                }
+            }
         }
+
     },
 });
 

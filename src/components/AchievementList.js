@@ -4,7 +4,7 @@ import { ImageList, ImageListItem, Link, Box } from '@mui/material';
 const AchievementList = ({ achievements = [] }) => (
     <ImageList sx={{
         marginLeft: 3,
-        marginBottom: 10,
+        marginBottom: 6,
         display: 'flex',
         flexWrap: 'wrap',
     }}>
@@ -19,12 +19,13 @@ const AchievementList = ({ achievements = [] }) => (
                     <Box
                         component="img"
                         src={achievement.iconUrl}
+                        onError={(e) => { e.target.onerror = null; e.target.src = "https://render.worldofwarcraft.com/eu/icons/56/inv_misc_questionmark.jpg"; }}
                         alt="Icon"
                         sx={{
                             width: '40px',
                             height: 'auto',
                             filter: achievement.collected ? 'none' : 'grayscale(100%)',
-                            opacity: achievement.collected ? 1 : 0.5,
+                            opacity: achievement.collected ? 1 : 0.2,
                             '&:hover': {
                                 filter: 'none',
                                 opacity: 1,

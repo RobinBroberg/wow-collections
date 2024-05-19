@@ -4,6 +4,7 @@ const {getBlizzardAccessToken} = require("./BlizzardService");
 const {existsSync} = require("fs");
 const {readDataFromFile, saveDataToFile} = require("./utils/Utils");
 const router = express.Router();
+const parentCategories = require('./data/parentCategories.json').achievementParentCategories;
 
 
 
@@ -23,9 +24,6 @@ async function fetchAchievementData() {
         throw error;
     }
 }
-
-
-
 
 async function fetchAchievementIcon(achievementId) {
     try {
@@ -98,6 +96,40 @@ async function addCategoryAndIconToAchievement() {
     }
 }
 
+const fetchCategory = async (id, accessToken) => {
+    const response = await axios.get(
+        `https://eu.api.blizzard.com/data/wow/achievement-category/${id}?namespace=static-eu&locale=en_GB&access_token=${accessToken}`
+    );
+    return response.data;
+};
+
+const fetchAllAchievementCategories = async () => {
+    try {
+        const accessToken = await getBlizzardAccessToken();
+        const allCategories = [];
+
+        for (const parentId of parentCategories) {
+            const parentCategory = await fetchCategory(parentId, accessToken);
+
+            const parentCategoryData = {
+                id: parentCategory.id,
+                name: parentCategory.name,
+                subcategories: parentCategory.subcategories ? parentCategory.subcategories.map(subCategory => ({
+                    id: subCategory.id,
+                    name: subCategory.name
+                })) : []
+            };
+
+            allCategories.push(parentCategoryData);
+            console.log(`Fetched data for parent category: ${parentCategory.name}`);
+            console.log('Subcategories:', parentCategoryData.subcategories);
+        }
+        return allCategories;
+    } catch (error) {
+        console.error('Failed to fetch achievement categories:', error);
+    }
+};
+
 router.get('/', async (req, res) => {
     try {
         const filePath = 'data/achievementData.json';
@@ -126,6 +158,23 @@ router.get('/completed', async (req, res) => {
     } catch (error) {
         console.error('Failed to retrieve character achievements:', error);
         res.status(500).json({message: "Failed to retrieve collected character achievement data"});
+    }
+});
+
+router.get('/category', async (req, res) => {
+    try {
+        const filePath = 'data/categoriesData.json';
+        let categoryData;
+        if (existsSync(filePath)) {
+            categoryData = readDataFromFile(filePath);
+        } else {
+            categoryData = await fetchAllAchievementCategories();
+            saveDataToFile(categoryData, filePath);
+        }
+        res.json(categoryData);
+    } catch (error) {
+        console.error('Failed to retrieve achievement categories:', error);
+        res.status(500).json({ message: 'Failed to retrieve achievement categories' });
     }
 });
 
