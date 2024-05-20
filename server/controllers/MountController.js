@@ -3,6 +3,7 @@ const axios = require("axios");
 const {existsSync} = require("fs");
 const {getBlizzardAccessToken} = require("../utils/BlizzardService");
 const {readDataFromFile, saveDataToFile} = require("../utils/ReadAndSaveDataToFile");
+const {IGNORE_MOUNT_ID} = require("../data/ignoredMountsData");
 const router = express.Router();
 
 async function fetchMountsData() {
@@ -76,7 +77,9 @@ router.get('/', async (req, res) => {
             mountsData = await addDetailsToMounts();
             saveDataToFile(mountsData, filePath);
         }
-        res.json(mountsData);
+        const filteredMountsData = mountsData.filter(mount => !IGNORE_MOUNT_ID.includes(mount.id));
+
+        res.json(filteredMountsData);
     } catch (error) {
         console.error('Error handling request:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -105,6 +108,7 @@ router.get('/collected', async (req, res) => {
         res.status(500).json({ message: "Failed to retrieve collected mount data" });
     }
 });
+
 
 
 module.exports = router;

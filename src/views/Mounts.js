@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Grid, Paper, Typography} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/Utils";
-import {IGNORE_MOUNT_ID, EXPANSIONS, LEGACY} from "../data/mountData/mountData";
+import { EXPANSIONS, LEGACY} from "../data/mountData/mountData";
 import {Spinner} from "../components/Spinner";
 import MountList from "../components/Lists/MountList";
 
@@ -34,7 +34,7 @@ function Mounts() {
                     ]);
 
                 const {faction, collectedMounts} = collectedMountsResponse.data;
-                const validMounts = allMountsResponse.data.filter(mount => !IGNORE_MOUNT_ID.includes(mount.id));
+                const validMounts = allMountsResponse.data;
                 const collectedIds = new Set(collectedMounts.mounts.map(mount => mount.mount.id));
                 const updatedMounts = validMounts.map(mount => ({
                     ...mount,

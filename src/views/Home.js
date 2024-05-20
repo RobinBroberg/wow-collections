@@ -3,7 +3,7 @@ import {Grid, Typography, Card, Box} from "@mui/material";
 import MuiGauge from "../components/MuiGauge";
 import {Spinner} from "../components/Spinner";
 import axios from "axios";
-import {IGNORE_MOUNT_ID, LEGACY} from "../data/mountData/mountData";
+import {LEGACY} from "../data/mountData/mountData";
 
 function Home() {
 
@@ -29,7 +29,12 @@ function Home() {
 
         const fetchData = async () => {
             try {
-                const [allAchievementsResponse, completedAchievementsResponse, allMountsResponse, collectedMountsResponse, allToysResponse, collectedToysResponse] = await Promise.all(
+                const [allAchievementsResponse,
+                    completedAchievementsResponse,
+                    allMountsResponse,
+                    collectedMountsResponse,
+                    allToysResponse,
+                    collectedToysResponse] = await Promise.all(
                     [
                         axios.get('http://localhost:5000/achievements'),
                         axios.get(`http://localhost:5000/achievements/completed?characterName=${encodeURIComponent(
@@ -42,18 +47,15 @@ function Home() {
                             characterName)}&realm=${encodeURIComponent(realm)}`)
                     ]);
 
-                if (!allAchievementsResponse.data || !completedAchievementsResponse.data || !allMountsResponse.data
-                    || !collectedMountsResponse.data) {
-                    throw new Error("Invalid data structure from API");
-                }
                 const {faction, collectedMounts} = collectedMountsResponse.data;
                 const totalMounts = allMountsResponse.data.filter(
-                    mount => !IGNORE_MOUNT_ID.includes(mount.id) && !LEGACY.includes(mount.id) &&
+                    mount => !LEGACY.includes(mount.id) &&
                         (!mount.faction || mount.faction === faction));
 
                 const totalAchievements = allAchievementsResponse.data.filter(
                     achievement => !achievement.category.name.includes("Feats of Strength")
                         && !achievement.category.name.includes("Legacy"))
+
 
                 setTotalAchievements(totalAchievements.length);
                 setCompletedAchievements(completedAchievementsResponse.data.total_quantity);
