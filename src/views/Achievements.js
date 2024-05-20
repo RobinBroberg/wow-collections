@@ -3,7 +3,7 @@ import axios from 'axios';
 import {AppBar, Box, Grid, Paper, Tab, Tabs, Typography} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/Utils";
 import {Spinner} from "../components/Spinner";
-import AchievementList from "../components/AchievementList";
+import AchievementList from "../components/Lists/AchievementList";
 import TabPanel from "../components/TabPanel";
 import GroupAchievementsByCategory from "../utils/GroupAchievementsByCategory";
 
@@ -16,6 +16,7 @@ function Achievements() {
     const [points, setPoints] = useState("")
 
     useEffect(() => {
+
         const characterName = window.localStorage.getItem("character");
         const realm = window.localStorage.getItem("realm");
 

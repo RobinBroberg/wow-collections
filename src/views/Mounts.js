@@ -4,7 +4,7 @@ import {Grid, Paper, Typography} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/Utils";
 import {IGNORE_MOUNT_ID, EXPANSIONS, LEGACY} from "../data/mountData/mountData";
 import {Spinner} from "../components/Spinner";
-import MountList from "../components/MountList";
+import MountList from "../components/Lists/MountList";
 
 function Mounts() {
     const [mounts, setMounts] = useState([]);
@@ -14,6 +14,7 @@ function Mounts() {
 
     useEffect(() => {
 
+        window.scrollTo(0, 0);
         const characterName = window.localStorage.getItem("character");
         const realm = window.localStorage.getItem("realm");
 

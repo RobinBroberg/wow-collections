@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Grid, Paper, Typography} from "@mui/material";
 import {refreshWowheadTooltips} from "../utils/Utils";
 import {Spinner} from "../components/Spinner";
-import ToyList from "../components/ToyList";
+import ToyList from "../components/Lists/ToyList";
 
 function Toys() {
     const [toys, setToys] = useState([]);
@@ -11,6 +11,7 @@ function Toys() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const characterName = window.localStorage.getItem("character");
         const realm = window.localStorage.getItem("realm");
 
