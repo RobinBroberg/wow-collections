@@ -13,7 +13,7 @@ const AchievementList = ({ achievements = [] }) => (
                 <Link
                     href={`https://www.wowhead.com/achievement=${achievement.id}`}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={achievement.collected ? "who=player&;when=1273022820000" : "noopener noreferrer"}
                     sx={{marginRight: 1}}
                 >
                     <Box

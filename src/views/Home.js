@@ -94,20 +94,29 @@ function Home() {
         <Grid container sx={{display: "flex", justifyContent: "center", height: "80vh", alignItems: "center"}}>
             <Card sx={{padding: 2, margin: 2}}>
                 <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                    <Typography variant="h5">Achievements completed</Typography>
+                    <Typography variant="h5">Achievements</Typography>
                     <MuiGauge value={completedAchievements} valueMax={totalAchievements}/>
+                    <Typography variant="h5">
+                        {((completedAchievements / totalAchievements) * 100).toFixed(0)}% completed
+                    </Typography>
                 </Box>
             </Card>
             <Card sx={{padding: 2, margin: 2}}>
                 <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                    <Typography variant="h5">Mounts collected</Typography>
+                    <Typography variant="h5">Mounts</Typography>
                     <MuiGauge value={collectedMounts} valueMax={totalMounts}/>
+                    <Typography variant="h5">
+                        {((collectedMounts / totalMounts) * 100).toFixed(0)}% collected
+                    </Typography>
                 </Box>
             </Card>
             <Card sx={{padding: 2, margin: 2}}>
                 <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                    <Typography variant="h5">Toys Collected</Typography>
+                    <Typography variant="h5">Toys</Typography>
                     <MuiGauge value={collectedToys} valueMax={totalToys}/>
+                    <Typography variant="h5">
+                        {((collectedToys / totalToys) * 100).toFixed(0)}% collected
+                    </Typography>
                 </Box>
             </Card>
         </Grid>

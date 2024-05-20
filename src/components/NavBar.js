@@ -23,7 +23,7 @@ function NavBar({onIsDarkMode, isDarkMode}) {
         setDialogOpen(false);
         setCharacterName(localStorage.getItem('character'));
         setRealm(localStorage.getItem('realm'));
-        navigate('/mounts');
+        navigate('/');
     };
 
     const handleLogout = () => {
@@ -32,6 +32,7 @@ function NavBar({onIsDarkMode, isDarkMode}) {
         setCharacterName(null);
         setRealm(null);
         navigate('/');
+        window.location.reload();
     };
 
     const isLoggedIn = () => window.localStorage.getItem("character") && window.localStorage.getItem("realm");
