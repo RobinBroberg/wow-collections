@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getBlizzardAccessToken } = require('./BlizzardService');
+const { getBlizzardAccessToken } = require('../utils/BlizzardService');
 
 async function fetchCharacterId(characterName, realm) {
     const accessToken = await getBlizzardAccessToken();

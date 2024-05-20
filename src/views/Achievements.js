@@ -34,10 +34,6 @@ function Achievements() {
                     axios.get('http://localhost:5000/achievements/category')
                 ]);
 
-                if (!allAchievementsResponse.data || !completedAchievementsResponse.data || !categoriesResponse.data) {
-                    throw new Error("Invalid data structure from API");
-                }
-
                 const completedIds = new Set(
                     completedAchievementsResponse.data.achievements
                     .filter(achievement => achievement.completed_timestamp)
@@ -84,11 +80,11 @@ function Achievements() {
     return (
         <Grid container sx={{display: "flex", justifyContent: "center"}}>
             <Grid item xs={8}>
-                <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="h4" sx={{ marginBottom: 1, marginTop: 3, marginRight: 1 }}>
+                <Grid item xs={12} sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <Typography variant="h4" sx={{marginBottom: 1, marginTop: 3, marginRight: 1}}>
                         Achievements
                     </Typography>
-                    <Typography variant="h6" sx={{ marginBottom: 1, marginTop: 3 }}>
+                    <Typography variant="h6" sx={{marginBottom: 1, marginTop: 3}}>
                         Total points: {points}
                     </Typography>
                 </Grid>

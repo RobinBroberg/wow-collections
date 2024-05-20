@@ -1,9 +1,8 @@
 const express = require("express");
 const axios = require("axios");
 const {existsSync} = require("fs");
-const {getBlizzardAccessToken} = require("./BlizzardService");
-const {readDataFromFile, saveDataToFile} = require("./utils/Utils");
-
+const {getBlizzardAccessToken} = require("../utils/BlizzardService");
+const {readDataFromFile, saveDataToFile} = require("../utils/ReadAndSaveDataToFile");
 const router = express.Router();
 
 async function fetchMountsData() {

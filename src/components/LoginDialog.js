@@ -24,6 +24,7 @@ function LoginDialog({open, onClose}) {
         window.localStorage.setItem("realm", realm);
         onClose();
         navigate('/');
+        window.location.reload();
     };
 
     return (
@@ -72,7 +73,7 @@ function LoginDialog({open, onClose}) {
             <DialogActions>
                 <Button onClick={onClose} variant="contained" color={"secondary"}>Cancel</Button>
                 <Button onClick={handleSaveCharacter} variant="contained" color={"secondary"}
-                        disabled={!characterName || !realm}>Login</Button>
+                        disabled={!characterName || !realm} >Login</Button>
             </DialogActions>
         </Dialog>
     );

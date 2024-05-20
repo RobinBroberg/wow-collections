@@ -2,6 +2,7 @@ import './App.css';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Achievements from "./views/Achievements";
 import Mounts from "./views/Mounts";
+import Toys from "./views/Toys"
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {useEffect, useState} from "react";
 import NavBar from "./components/NavBar";
@@ -35,6 +36,7 @@ function App() {
                     <Route path="/" element={<Home/>}/>
                     <Route path="/mounts" element={<Mounts/>}/>
                     <Route path="/achievements" element={<Achievements/>}/>
+                    <Route path="/toys" element={<Toys/>}/>
                 </Routes>
             </Router>
         </ThemeProvider>

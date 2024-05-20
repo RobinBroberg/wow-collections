@@ -1,10 +1,10 @@
 const express = require("express");
 const axios = require("axios");
-const {getBlizzardAccessToken} = require("./BlizzardService");
+const {getBlizzardAccessToken} = require("../utils/BlizzardService");
 const {existsSync} = require("fs");
-const {readDataFromFile, saveDataToFile} = require("./utils/Utils");
+const {readDataFromFile, saveDataToFile} = require("../utils/ReadAndSaveDataToFile");
 const router = express.Router();
-const parentCategories = require('./data/parentCategories.json').achievementParentCategories;
+const parentCategories = require('../data/parentCategories.json').achievementParentCategories;
 
 
 
@@ -60,7 +60,7 @@ async function fetchAchievementCategory(achievementId) {
         console.log("Category Data:", categoryData);
         return categoryData;
     } catch (error) {
-        console.error(`Failed to retrieve icon for achievement ID ${achievementId}:`, error);
+        console.error(`Failed to retrieve category for achievement ID ${achievementId}:`, error);
         return null;
     }
 

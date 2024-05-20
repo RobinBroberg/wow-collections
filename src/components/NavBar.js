@@ -55,7 +55,7 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                         <Grid container spacing={2} sx={{alignItems: "center"}}>
                             <Link href={"/"} sx={{ textDecoration: 'none' }} >
                                 <Box component="img" src={siteLogo} alt="Logo"
-                                     sx={{ width: "auto", height: "50px", marginRight: "50px", marginTop: 3 }} />
+                                     sx={{ width: "auto", height: "50px", marginRight: 7, marginTop: 3 }} />
                             </Link>
                             <Grid item>
                                 <NavButton to="/achievements" label="Achievements" disabled={!isLoggedIn()}/>
@@ -64,7 +64,7 @@ function NavBar({onIsDarkMode, isDarkMode}) {
                                 <NavButton to="/mounts" label="Mounts" disabled={!isLoggedIn()}/>
                             </Grid>
                             <Grid item>
-                                <NavButton to="/pets" label="Pets" disabled={!isLoggedIn()}/>
+                                <NavButton to="/toys" label="Toys" disabled={!isLoggedIn()}/>
                             </Grid>
                         </Grid>
                     </Grid>
