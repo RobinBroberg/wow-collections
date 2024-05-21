@@ -12,27 +12,28 @@ in a user-friendly interface.
    cd wow-collections
 
 2. **Install backend dependencies:**
-3. ```sh
-cd server
-npm install
+   ```sh
+   cd server
+   npm install
 
-Install frontend dependencies:
-cd ../wow-collections
-npm install
+3. **Install frontend dependencies:**
+   ```sh
+   cd ../wow-collections
+   npm install
 
-Set up environment variables:
+4. **Set up environment variables:**
+   
+   Create a .env file in the root directory with the following content:
+   ```sh
+   REACT_APP_CLIENT_ID=your_blizzard_client_id
+   REACT_APP_CLIENT_SECRET=your_blizzard_client_secret
 
-Create a .env file in the root directory with the following content:
+5. **Usage**
+   
+   Start the backend server:
 
-REACT_APP_CLIENT_ID=your_blizzard_client_id
-REACT_APP_CLIENT_SECRET=your_blizzard_client_secret
-
-Usage
-
-Start the backend server:
-
-cd server
-npm start
+   cd server
+   npm start
 
 Start the frontend server:
 
