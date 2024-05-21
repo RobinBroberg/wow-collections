@@ -27,8 +27,8 @@ in a user-friendly interface.
 
    Create a `.env` file in the root directory with the following content:
       ```
-      REACT_APP_CLIENT_ID=your_blizzard_client_id
-      REACT_APP_CLIENT_SECRET=your_blizzard_client_secret
+      BLIZZARD_CLIENT_ID=your_blizzard_client_id
+      BLIZZARD_CLIENT_SECRET=your_blizzard_client_secret
       ```
 
 ## Usage

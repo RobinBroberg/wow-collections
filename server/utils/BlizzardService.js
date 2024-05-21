@@ -3,8 +3,8 @@ const axios = require("axios");
 async function getBlizzardAccessToken() {
     const params = new URLSearchParams({
         grant_type: 'client_credentials',
-        client_id: process.env.REACT_APP_CLIENT_ID,
-        client_secret: process.env.REACT_APP_CLIENT_SECRET,
+        client_id: process.env.BLIZZARD_CLIENT_ID,
+        client_secret: process.env.BLIZZARD_CLIENT_SECRET,
     });
     try {
         const response = await axios.post('https://oauth.battle.net/token', params);
