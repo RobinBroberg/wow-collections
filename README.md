@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# WoW Collections
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a World of Warcraft collections tracker that allows users to view their collected
+mounts, achievements, and toys. The application fetches data from the Blizzard API and displays it
+in a user-friendly interface.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/RobinBroberg/wow-collections.git
+   cd wow-collections
 
-### `npm start`
+2. **Install backend dependencies:**
+3. ```sh
+cd server
+npm install
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Install frontend dependencies:
+cd ../wow-collections
+npm install
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Set up environment variables:
 
-### `npm test`
+Create a .env file in the root directory with the following content:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+REACT_APP_CLIENT_ID=your_blizzard_client_id
+REACT_APP_CLIENT_SECRET=your_blizzard_client_secret
 
-### `npm run build`
+Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Start the backend server:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+cd server
+npm start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Start the frontend server:
 
-### `npm run eject`
+cd.. /wow-collections
+npm start
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Access the application:
+Open your browser and navigate to http://localhost:3000
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+API Endpoints
+Mounts
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+GET /mounts
+Fetch all mount data.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+GET /mounts/collected
+Fetch collected mounts for a specific character.
 
-## Learn More
+Achievements
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+GET /achievements
+Fetch all achievement data.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+GET /achievements/completed
+Fetch completed achievements for a specific character.
 
-### Code Splitting
+Toys
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+GET /toys
+Fetch all toy data.
 
-### Analyzing the Bundle Size
+GET /toys/collected
+Fetch collected toys for a specific character.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Technologies Used
 
-### Making a Progressive Web App
+Frontend:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+React
+Material-UI
+Axios
 
-### Advanced Configuration
+Backend:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Node.js
+Express
+Axios
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
