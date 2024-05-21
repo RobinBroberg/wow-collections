@@ -57,7 +57,7 @@ in a user-friendly interface.
 GET /mounts
 Fetch all mount data.
 
-GET /mounts/collected
+GET /mounts/collected  
 Fetch collected mounts for a specific character.
 
 ### Achievements
