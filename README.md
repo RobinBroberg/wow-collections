@@ -24,7 +24,7 @@ in a user-friendly interface.
     ```
 
 4. **Set up environment variables:**
-    - Create a `.env` file in the root directory with the following content:
+   Create a `.env` file in the root directory with the following content:
       ```
       REACT_APP_CLIENT_ID=your_blizzard_client_id
       REACT_APP_CLIENT_SECRET=your_blizzard_client_secret
