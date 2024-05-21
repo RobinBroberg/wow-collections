@@ -7,44 +7,52 @@ in a user-friendly interface.
 ## Installation
 
 1. **Clone the repository:**
-   ```sh
+   ```
    git clone https://github.com/RobinBroberg/wow-collections.git
    cd wow-collections
-
+   ```
+   
 2. **Install backend dependencies:**
-   ```sh
+   ```
    cd server
    npm install
-
+   ```
+   
 3. **Install frontend dependencies:**
-   ```sh
+   ```
    cd ../wow-collections
    npm install
-
+   ```
+   
 4. **Set up environment variables:**
    
    Create a .env file in the root directory with the following content:
-   ```sh
+   ```
    REACT_APP_CLIENT_ID=your_blizzard_client_id
    REACT_APP_CLIENT_SECRET=your_blizzard_client_secret
-
+   ```
+   
 5. **Usage**
    
    Start the backend server:
-
+   ```
    cd server
    npm start
+   ```
+   
+   Start the frontend server:
+   ```
+   cd.. /wow-collections
+   npm start
+   ```
 
-Start the frontend server:
+6. **Access the application:**
 
-cd.. /wow-collections
-npm start
+   Open your browser and navigate to http://localhost:3000
 
-Access the application:
-Open your browser and navigate to http://localhost:3000
+## API Endpoints
 
-API Endpoints
-Mounts
+### Mounts
 
 GET /mounts
 Fetch all mount data.
@@ -52,7 +60,7 @@ Fetch all mount data.
 GET /mounts/collected
 Fetch collected mounts for a specific character.
 
-Achievements
+### Achievements
 
 GET /achievements
 Fetch all achievement data.
@@ -60,7 +68,7 @@ Fetch all achievement data.
 GET /achievements/completed
 Fetch completed achievements for a specific character.
 
-Toys
+### Toys
 
 GET /toys
 Fetch all toy data.
@@ -68,15 +76,15 @@ Fetch all toy data.
 GET /toys/collected
 Fetch collected toys for a specific character.
 
-Technologies Used
+## Technologies Used
 
-Frontend:
+### Frontend:
 
 React
 Material-UI
 Axios
 
-Backend:
+### Backend:
 
 Node.js
 Express
