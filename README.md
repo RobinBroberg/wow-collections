@@ -54,7 +54,7 @@ in a user-friendly interface.
 
 ### Mounts
 
-GET /mounts
+GET /mounts  
 Fetch all mount data.
 
 GET /mounts/collected  
@@ -62,31 +62,31 @@ Fetch collected mounts for a specific character.
 
 ### Achievements
 
-GET /achievements
+GET /achievements  
 Fetch all achievement data.
 
-GET /achievements/completed
+GET /achievements/completed  
 Fetch completed achievements for a specific character.
 
 ### Toys
 
-GET /toys
+GET /toys  
 Fetch all toy data.
 
-GET /toys/collected
+GET /toys/collected  
 Fetch collected toys for a specific character.
 
 ## Technologies Used
 
 ### Frontend:
 
-React
-Material-UI
+React  
+Material-UI  
 Axios
 
 ### Backend:
 
-Node.js
-Express
-Axios
+Node.js  
+Express  
+Axios  
 
