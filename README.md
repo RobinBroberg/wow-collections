@@ -23,7 +23,7 @@ in a user-friendly interface.
     npm install
     ```
 
-4. **Set up environment variables:**
+4. **Set up environment variables:**  
    Create a `.env` file in the root directory with the following content:
       ```
       REACT_APP_CLIENT_ID=your_blizzard_client_id
