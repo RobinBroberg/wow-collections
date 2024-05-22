@@ -8,7 +8,7 @@ async function getBlizzardAccessToken() {
     });
     try {
         const response = await axios.post('https://oauth.battle.net/token', params);
-        console.log(response.data.access_token)
+        //console.log(response.data.access_token)
         return response.data.access_token;
     } catch (error) {
         console.error('Failed to retrieve Blizzard access token:', error);
