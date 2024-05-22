@@ -15,6 +15,7 @@ in a user-friendly interface.
     ```sh
     cd server
     npm install
+    npm install nodemon
     ```
 
 3. **Install frontend dependencies:**
@@ -36,7 +37,7 @@ in a user-friendly interface.
 1. **Start the backend server:**
     ```sh
     cd server
-    npm start
+    nodemon server.js
     ```
 
 2. **Start the frontend server:**
