@@ -76,10 +76,12 @@ in a user-friendly interface.
 
 ## Technologies Used
 
+- Node v20
+
 ### Frontend:
 
 - React
-- Material-UI
+- Material-UI v5
 - Axios
 
 ### Backend:
