@@ -2,7 +2,7 @@
 
 This project is a World of Warcraft collections tracker that allows users to view their collected
 mounts, achievements, and toys. The application fetches data from the Blizzard API and displays it
-in a user-friendly interface.
+in a user-friendly interface. This project was completed as a final thesis for my education.
 
 ## Installation
 
